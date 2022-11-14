@@ -1,15 +1,15 @@
-version: '3.8'
-
+version: '2.4'
 services:
-  mongo:
-    image: mongo:latest
-    restart: always
-    container_name: kworti-mongo
-    hostname: kworti-mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
-    volumes:
-      - ./db:/data/db
-    ports:
-      - '27017:27017'
+ mysql:
+  container_name: mysqlDB
+  image: mysql:latest
+  volumes:
+   - ./db-data/db:/var/lib/mysql
+  ports:
+   - '3306:3306'
+  hostname: mysqlDB
+  environment:
+   MYSQL_DATABASE: ${DB_NAME}
+   MYSQL_USER: ${DB_USER}
+   MYSQL_PASSWORD: ${DB_PASS}
+   MYSQL_ROOT_PASSWORD: ${DB_PASS}
