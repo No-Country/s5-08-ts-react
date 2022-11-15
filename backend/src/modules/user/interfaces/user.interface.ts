@@ -1,7 +1,5 @@
-import { Document, ObjectId } from 'mongoose';
-
 export interface IUser {
-  _id: ObjectId;
+  id: string;
   name: string;
   email: string;
 }

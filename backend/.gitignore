@@ -36,6 +36,7 @@ lerna-debug.log*
 
 .history
 db
-.env
+db-data
+*.env
 pnpm-lock.yaml
 package-lock.json

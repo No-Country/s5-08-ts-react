@@ -20,11 +20,11 @@ export class AuthService {
     return await this.userService.create(newUser);
   };
 
-  login = async (user: LoginDTO) => {
+  /*login = async (user: LoginDTO) => {
     try {
       const findUser = await this.userService.findOne(
         { email: user.email },
-        { resetPasswordCode: 0 },
+        // { resetPasswordCode: 0 },
       );
       if (!findUser) throw new Error();
       console.log(findUser);
@@ -47,9 +47,9 @@ export class AuthService {
 
   refresh = async (req: Request) => {
     const refreshToken = req.token;
-    const { _id } = req.user;
+    const { id } = req.user;
 
-    const user = await this.userService.findOne({ _id });
+    const user = await this.userService.findOne(id);
 
     const matchesToken = await compareData(refreshToken, user.refreshTokenHash);
 
@@ -59,7 +59,7 @@ export class AuthService {
     const { name, email } = user;
     const tokens = await this.getTokens({ name, email, _id });
     this.userService.update(
-      { _id },
+      { id },
       { refreshTokenHash: await hashData(tokens.refreshToken) },
     );
     return tokens;
@@ -80,5 +80,5 @@ export class AuthService {
     ]);
 
     return { accessToken, refreshToken };
-  };
+  };*/
 }

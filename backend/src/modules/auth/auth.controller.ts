@@ -12,7 +12,7 @@ export class AuthController {
     return this.authService.register(newUser);
   }
 
-  @Post('login')
+  /*@Post('login')
   login(@Body() user: LoginDTO) {
     return this.authService.login(user);
   }
@@ -21,5 +21,5 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   refresh(@Request() req) {
     return this.authService.refresh(req);
-  }
+  }*/
 }

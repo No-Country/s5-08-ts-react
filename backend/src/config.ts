@@ -2,11 +2,12 @@ import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', () => {
   return {
-    mongo: {
-      uri: process.env.MONGO_URI,
-      dbName: process.env.MONGO_DBNAME,
-      user: process.env.MONGO_USER,
-      pass: process.env.MONGO_PASS,
+    msql: {
+      db: process.env.MSQL_DB,
+      port: parseInt(process.env.MSQL_PORT),
+      host: process.env.MSQL_HOST,
+      user: process.env.MSQL_USER,
+      password: process.env.MSQL_PASSWORD,
     },
     secret: {
       accessToken: process.env.SECRET_ACCESSTOKEN,

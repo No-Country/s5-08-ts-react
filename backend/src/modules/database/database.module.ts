@@ -1,20 +1,10 @@
-import { Module, Global } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { Global, Module } from '@nestjs/common';
 
-import config from '../../config';
+import { databaseProviders } from './database.providers';
 
 @Global()
 @Module({
-  imports: [
-    MongooseModule.forRootAsync({
-      useFactory: (configService: ConfigType<typeof config>) => {
-        const mongoCredentials = configService.mongo;
-        return { ...mongoCredentials };
-      },
-      inject: [config.KEY],
-    }),
-  ],
-  exports: [MongooseModule],
+  providers: [...databaseProviders],
+  exports: [...databaseProviders],
 })
 export class DatabaseModule {}
