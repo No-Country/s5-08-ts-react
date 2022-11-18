@@ -9,14 +9,15 @@ export class AuthController {
 
   @Post('register')
   register(@Body() newUser: RegisterDTO) {
-    return this.authService.register(newUser);
+    return this.authService.registerAdmin(newUser);
   }
 
-  /*@Post('login')
+  @Post('login')
   login(@Body() user: LoginDTO) {
     return this.authService.login(user);
   }
 
+  /*
   @Post('refresh')
   @UseGuards(JwtRefreshGuard)
   refresh(@Request() req) {

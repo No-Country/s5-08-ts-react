@@ -1,49 +1,118 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
+import { Repository } from 'typeorm';
 import config from '../../config';
 import { compareData, hashData } from '../../utils/bcrypt.util';
-import { IUser } from '../user/interfaces/user.interface';
+import { User } from '../user/entities/User.entity';
+import { Roles } from '../user/models/Roles.model';
 import { UserService } from '../user/user.service';
 import { LoginDTO, RegisterDTO } from './dto/auth.dto';
+import { PayloadToken, Tokens } from './models/tokens.model';
+import { AUTH_REPOSITORY_KEY } from './repository/UserAuthRepository.providers';
+import { UserAuth } from './UserAuth.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    @Inject(AUTH_REPOSITORY_KEY)
+    private readonly authRepository: Repository<UserAuth>,
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
-  register = async (newUser: RegisterDTO) => {
-    return await this.userService.create(newUser);
-  };
+  async registerAdmin(newUser: RegisterDTO): Promise<{
+    tokens: Tokens;
+    user: User;
+  }> {
+    const { password, ...userData } = newUser;
 
-  /*login = async (user: LoginDTO) => {
+    const user = await this.userService.create({
+      ...userData,
+      role: Roles.ADMIN,
+    });
+
+    const tokens = await this.generateTokens({
+      id: user.id,
+      name: user.firstName,
+      role: user.role,
+    });
+
+    await this.createUserAuth({
+      password,
+      user,
+      refreshToken: tokens.refreshToken,
+    });
+
+    return { tokens, user };
+  }
+
+  private async createUserAuth(newUserAuth: {
+    password: string;
+    refreshToken: string;
+    user: User;
+  }) {
+    const refreshTokenHash = await hashData(newUserAuth.refreshToken);
+    const passwordHash = await hashData(newUserAuth.password);
+
+    const userAuthModel = this.authRepository.create({
+      password: passwordHash,
+      user: newUserAuth.user,
+      refreshTokenHash,
+    });
+
+    return await this.authRepository.save(userAuthModel);
+  }
+
+  async generateTokens(payload: PayloadToken): Promise<Tokens> {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.sign(
+        { ...payload },
+        { secret: this.configService.secret.accessToken, expiresIn: '1d' },
+      ),
+      this.jwtService.sign(
+        { id: payload.id },
+        { secret: this.configService.secret.refreshToken, expiresIn: '60d' },
+      ),
+    ]);
+
+    return { accessToken, refreshToken };
+  }
+
+  async login(userLogin: LoginDTO): Promise<Tokens> {
     try {
-      const findUser = await this.userService.findOne(
-        { email: user.email },
-        // { resetPasswordCode: 0 },
-      );
-      if (!findUser) throw new Error();
-      console.log(findUser);
-      console.log(user);
-      const passwordMatch = await compareData(user.password, findUser.password);
+      const userAuth = await this.authRepository.findOneBy({
+        user: { email: userLogin.email },
+      });
 
-      if (!passwordMatch) throw new Error();
-
-      const { name, email, _id } = findUser;
-      const tokens = await this.getTokens({ name, email, _id });
-      this.userService.update(
-        { _id: findUser._id },
-        { refreshTokenHash: await hashData(tokens.refreshToken) },
+      console.log(userAuth);
+      console.log(userLogin);
+      const isPasswordMatch = await compareData(
+        userLogin.password,
+        userAuth.password,
       );
+      if (!isPasswordMatch)
+        throw new UnauthorizedException('Invalid email or password');
+
+      const { user } = userAuth;
+      const tokens = await this.generateTokens({
+        id: user.id,
+        name: user.firstName,
+        role: user.role,
+      });
+
+      this.authRepository.update(userAuth.id, {
+        refreshTokenHash: await hashData(tokens.refreshToken),
+      });
+
       return tokens;
     } catch (error) {
       throw new UnauthorizedException('Invalid email or password.');
     }
-  };
+  }
+
+  /*
 
   refresh = async (req: Request) => {
     const refreshToken = req.token;
@@ -65,20 +134,5 @@ export class AuthService {
     return tokens;
   };
 
-  getTokens = async (
-    user: IUser,
-  ): Promise<{ accessToken: string; refreshToken: string }> => {
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.sign(
-        { ...user },
-        { secret: this.configService.secret.accessToken, expiresIn: '7d' },
-      ),
-      this.jwtService.sign(
-        { _id: user._id },
-        { secret: this.configService.secret.refreshToken, expiresIn: '60d' },
-      ),
-    ]);
-
-    return { accessToken, refreshToken };
-  };*/
+  ;*/
 }

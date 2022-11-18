@@ -1,6 +1,6 @@
 import { DATA_SOURCE_KEY } from 'src/modules/database/database.providers';
 import { DataSource } from 'typeorm';
-import { User } from '../User.entity';
+import { User } from '../entities/User.entity';
 
 export const USER_REPOSITORY_KEY = 'USER_REPOSITORY';
 
