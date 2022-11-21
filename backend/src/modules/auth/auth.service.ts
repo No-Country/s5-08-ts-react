@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import config from '../../config';
 import { compareData, hashData } from '../../utils/bcrypt.util';
 import { User } from '../user/entities/User.entity';
-import { Roles } from '../user/models/Roles.model';
+import { Role } from '../user/models/Roles.model';
 import { UserService } from '../user/user.service';
 import { LoginDTO, RegisterDTO } from './dto/auth.dto';
 import { PayloadToken, Tokens } from './models/tokens.model';
@@ -30,7 +30,7 @@ export class AuthService {
 
     const user = await this.userService.create({
       ...userData,
-      role: Roles.ADMIN,
+      role: Role.ADMIN,
     });
 
     const tokens = await this.generateTokens({
@@ -86,14 +86,13 @@ export class AuthService {
         user: { email: userLogin.email },
       });
 
-      console.log(userAuth);
-      console.log(userLogin);
       const isPasswordMatch = await compareData(
         userLogin.password,
         userAuth.password,
       );
-      if (!isPasswordMatch)
+      if (!isPasswordMatch) {
         throw new UnauthorizedException('Invalid email or password');
+      }
 
       const { user } = userAuth;
       const tokens = await this.generateTokens({
@@ -112,27 +111,29 @@ export class AuthService {
     }
   }
 
-  /*
+  async refresh(userId: string, refreshToken: string): Promise<Tokens> {
+    const userAuth = await this.authRepository.findOneBy({
+      user: { id: userId },
+    });
 
-  refresh = async (req: Request) => {
-    const refreshToken = req.token;
-    const { id } = req.user;
+    const isMatchesToken = await compareData(
+      refreshToken,
+      userAuth.refreshTokenHash,
+    );
 
-    const user = await this.userService.findOne(id);
-
-    const matchesToken = await compareData(refreshToken, user.refreshTokenHash);
-
-    if (!matchesToken)
+    if (!isMatchesToken)
       throw new UnauthorizedException('Invalid token. Please log in.');
 
-    const { name, email } = user;
-    const tokens = await this.getTokens({ name, email, _id });
-    this.userService.update(
-      { id },
-      { refreshTokenHash: await hashData(tokens.refreshToken) },
-    );
-    return tokens;
-  };
+    const { firstName, role } = userAuth.user;
+    const tokens = await this.generateTokens({
+      id: userId,
+      name: firstName,
+      role,
+    });
+    this.authRepository.update(userAuth.id, {
+      refreshTokenHash: await hashData(tokens.refreshToken),
+    });
 
-  ;*/
+    return tokens;
+  }
 }

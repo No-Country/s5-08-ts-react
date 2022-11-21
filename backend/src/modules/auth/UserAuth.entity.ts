@@ -10,7 +10,7 @@ export class UserAuth extends BaseProperties {
   @Column({ length: 250, nullable: true, name: 'refresh_token_hash' })
   refreshTokenHash: string;
 
-  @OneToOne(() => User)
-  @JoinColumn({ name: 'user_id' })
+  @OneToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'userId' })
   user: User;
 }

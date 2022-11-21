@@ -1,4 +1,5 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDTO, RegisterDTO } from './dto/auth.dto';
 import { JwtRefreshGuard } from './Guards/jwt.guard';
@@ -17,10 +18,11 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  /*
   @Post('refresh')
   @UseGuards(JwtRefreshGuard)
   refresh(@Request() req) {
-    return this.authService.refresh(req);
-  }*/
+    const { token: refreshToken, user } = req;
+
+    return this.authService.refresh(user.id, refreshToken);
+  }
 }

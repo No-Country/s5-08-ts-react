@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongoose';
-
 export {};
 
 declare global {
@@ -8,7 +6,7 @@ declare global {
       user: {
         id: string;
         name: string;
-        email: string;
+        role: string;
       };
       token: string;
     }
