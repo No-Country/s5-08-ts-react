@@ -1,5 +1,5 @@
-import Header from '../Header';
-import Sidebar from '../Sidebar';
+import Header from '../UI/Header';
+import Sidebar from '../UI/Sidebar';
 
 import styles from '../../styles/AdminLayout.module.css';
 
