@@ -1,9 +1,11 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { Request } from 'express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Request as RequestExpress } from 'express';
 import { AuthService } from './auth.service';
-import { LoginDTO, RegisterDTO } from './dto/auth.dto';
-import { JwtRefreshGuard } from './Guards/jwt.guard';
+import { ActivateUserDTO, LoginDTO, RegisterDTO } from './dto/auth.dto';
+import { JwtAccessGuard, JwtRefreshGuard } from './Guards/jwt.guard';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -18,9 +20,21 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAccessGuard)
+  @Post('activate')
+  activateUserAuth(
+    @Request() req: RequestExpress,
+    @Body() body: ActivateUserDTO,
+  ) {
+    const userId = req.user.id;
+    const { password } = body;
+    return this.authService.activateUserAuth(userId, password);
+  }
+
   @Post('refresh')
   @UseGuards(JwtRefreshGuard)
-  refresh(@Request() req) {
+  refresh(@Request() req: RequestExpress) {
     const { token: refreshToken, user } = req;
 
     return this.authService.refresh(user.id, refreshToken);

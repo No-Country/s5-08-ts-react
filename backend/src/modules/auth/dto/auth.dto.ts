@@ -42,6 +42,12 @@ export class LoginDTO {
   password: string;
 }
 
+export class ActivateUserDTO {
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
+
 export class UpdateDTO {
   @IsString()
   @IsNotEmpty()

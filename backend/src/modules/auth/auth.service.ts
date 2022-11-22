@@ -65,6 +65,23 @@ export class AuthService {
     return await this.authRepository.save(userAuthModel);
   }
 
+  async activateUserAuth(userId: string, password: string): Promise<Tokens> {
+    const user = await this.userService.findOne({ id: userId });
+    const tokens = await this.generateTokens({
+      id: user.id,
+      name: user.firstName,
+      role: user.role,
+    });
+
+    await this.createUserAuth({
+      password,
+      refreshToken: tokens.refreshToken,
+      user,
+    });
+
+    return tokens;
+  }
+
   async generateTokens(payload: PayloadToken): Promise<Tokens> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.sign(

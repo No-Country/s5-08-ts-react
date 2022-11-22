@@ -7,6 +7,7 @@ import { enviroments } from './enviroments';
 import config from './config';
 import { DatabaseModule } from './modules/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AuthModule } from './modules/auth/auth.module';
         SECRET_REFRESHTOKEN: Joi.string().required(),
       }),
     }),
+    EventEmitterModule.forRoot(),
     DatabaseModule,
     UserModule,
     AuthModule,
