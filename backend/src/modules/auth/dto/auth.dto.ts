@@ -9,12 +9,21 @@ import {
 export class RegisterDTO {
   @IsString()
   @IsNotEmpty()
-  @MinLength(4)
-  name: string;
+  @MinLength(1)
+  firstName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(1)
+  lastName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(1)
+  phone: string;
 
   @IsEmail()
   @IsNotEmpty()
-  @MinLength(6)
   email: string;
 
   @IsString()
@@ -28,6 +37,12 @@ export class LoginDTO {
   @IsNotEmpty()
   email: string;
 
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
+
+export class ActivateUserDTO {
   @IsString()
   @IsNotEmpty()
   password: string;

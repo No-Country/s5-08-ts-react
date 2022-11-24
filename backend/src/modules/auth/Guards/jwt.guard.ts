@@ -5,18 +5,29 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { IncomingMessage } from 'http';
 import config from '../../../config';
+import { ROUTE_IS_PUBLIC_KEY } from '../decorators/routePublic.decorator';
 
 @Injectable()
 export class JwtAccessGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
+    private reflector: Reflector,
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
   canActivate(context: ExecutionContext): boolean {
+    const isPublic = this.reflector.get(
+      ROUTE_IS_PUBLIC_KEY,
+      context.getHandler(),
+    );
+    if (isPublic) {
+      return true;
+    }
+
     const request = this.getRequest<
       IncomingMessage & { user?: Record<string, unknown> }
     >(context);

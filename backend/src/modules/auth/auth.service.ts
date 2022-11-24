@@ -1,84 +1,156 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
+import { Repository } from 'typeorm';
 import config from '../../config';
 import { compareData, hashData } from '../../utils/bcrypt.util';
-import { IUser } from '../user/interfaces/user.interface';
+import { User } from '../user/entities/User.entity';
+import { Role } from '../user/models/Roles.model';
 import { UserService } from '../user/user.service';
 import { LoginDTO, RegisterDTO } from './dto/auth.dto';
+import { PayloadToken, Tokens } from './models/tokens.model';
+import { AUTH_REPOSITORY_KEY } from './repository/UserAuthRepository.providers';
+import { UserAuth } from './UserAuth.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    @Inject(AUTH_REPOSITORY_KEY)
+    private readonly authRepository: Repository<UserAuth>,
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
-  register = async (newUser: RegisterDTO) => {
-    return await this.userService.create(newUser);
-  };
+  async registerAdmin(newUser: RegisterDTO): Promise<{
+    tokens: Tokens;
+    user: User;
+  }> {
+    const { password, ...userData } = newUser;
 
-  /*login = async (user: LoginDTO) => {
-    try {
-      const findUser = await this.userService.findOne(
-        { email: user.email },
-        // { resetPasswordCode: 0 },
-      );
-      if (!findUser) throw new Error();
-      console.log(findUser);
-      console.log(user);
-      const passwordMatch = await compareData(user.password, findUser.password);
+    const user = await this.userService.create({
+      ...userData,
+      role: Role.ADMIN,
+    });
 
-      if (!passwordMatch) throw new Error();
+    const tokens = await this.generateTokens({
+      id: user.id,
+      name: user.firstName,
+      role: user.role,
+    });
 
-      const { name, email, _id } = findUser;
-      const tokens = await this.getTokens({ name, email, _id });
-      this.userService.update(
-        { _id: findUser._id },
-        { refreshTokenHash: await hashData(tokens.refreshToken) },
-      );
-      return tokens;
-    } catch (error) {
-      throw new UnauthorizedException('Invalid email or password.');
-    }
-  };
+    await this.createUserAuth({
+      password,
+      user,
+      refreshToken: tokens.refreshToken,
+    });
 
-  refresh = async (req: Request) => {
-    const refreshToken = req.token;
-    const { id } = req.user;
+    return { tokens, user };
+  }
 
-    const user = await this.userService.findOne(id);
+  private async createUserAuth(newUserAuth: {
+    password: string;
+    refreshToken: string;
+    user: User;
+  }) {
+    const refreshTokenHash = await hashData(newUserAuth.refreshToken);
+    const passwordHash = await hashData(newUserAuth.password);
 
-    const matchesToken = await compareData(refreshToken, user.refreshTokenHash);
+    const userAuthModel = this.authRepository.create({
+      password: passwordHash,
+      user: newUserAuth.user,
+      refreshTokenHash,
+    });
 
-    if (!matchesToken)
-      throw new UnauthorizedException('Invalid token. Please log in.');
+    return await this.authRepository.save(userAuthModel);
+  }
 
-    const { name, email } = user;
-    const tokens = await this.getTokens({ name, email, _id });
-    this.userService.update(
-      { id },
-      { refreshTokenHash: await hashData(tokens.refreshToken) },
-    );
+  async activateUserAuth(userId: string, password: string): Promise<Tokens> {
+    const user = await this.userService.findOne({ id: userId });
+    const tokens = await this.generateTokens({
+      id: user.id,
+      name: user.firstName,
+      role: user.role,
+    });
+
+    await this.createUserAuth({
+      password,
+      refreshToken: tokens.refreshToken,
+      user,
+    });
+
     return tokens;
-  };
+  }
 
-  getTokens = async (
-    user: IUser,
-  ): Promise<{ accessToken: string; refreshToken: string }> => {
+  async generateTokens(payload: PayloadToken): Promise<Tokens> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.sign(
-        { ...user },
-        { secret: this.configService.secret.accessToken, expiresIn: '7d' },
+        { ...payload },
+        { secret: this.configService.secret.accessToken, expiresIn: '1d' },
       ),
       this.jwtService.sign(
-        { _id: user._id },
+        { id: payload.id },
         { secret: this.configService.secret.refreshToken, expiresIn: '60d' },
       ),
     ]);
 
     return { accessToken, refreshToken };
-  };*/
+  }
+
+  async login(userLogin: LoginDTO): Promise<Tokens> {
+    try {
+      const userAuth = await this.authRepository.findOneBy({
+        user: { email: userLogin.email },
+      });
+
+      const isPasswordMatch = await compareData(
+        userLogin.password,
+        userAuth.password,
+      );
+      if (!isPasswordMatch) {
+        throw new UnauthorizedException('Invalid email or password');
+      }
+
+      const { user } = userAuth;
+      const tokens = await this.generateTokens({
+        id: user.id,
+        name: user.firstName,
+        role: user.role,
+      });
+
+      this.authRepository.update(userAuth.id, {
+        refreshTokenHash: await hashData(tokens.refreshToken),
+      });
+
+      return tokens;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid email or password.');
+    }
+  }
+
+  async refresh(userId: string, refreshToken: string): Promise<Tokens> {
+    const userAuth = await this.authRepository.findOneBy({
+      user: { id: userId },
+    });
+
+    const isMatchesToken = await compareData(
+      refreshToken,
+      userAuth.refreshTokenHash,
+    );
+
+    if (!isMatchesToken)
+      throw new UnauthorizedException('Invalid token. Please log in.');
+
+    const { firstName, role } = userAuth.user;
+    const tokens = await this.generateTokens({
+      id: userId,
+      name: firstName,
+      role,
+    });
+    this.authRepository.update(userAuth.id, {
+      refreshTokenHash: await hashData(tokens.refreshToken),
+    });
+
+    return tokens;
+  }
 }
