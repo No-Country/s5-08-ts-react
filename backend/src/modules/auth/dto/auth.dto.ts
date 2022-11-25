@@ -28,6 +28,10 @@ export class RegisterDTO {
 
   @IsString()
   @IsNotEmpty()
+  institutionId: string;
+
+  @IsString()
+  @IsNotEmpty()
   @MinLength(6)
   password: string;
 }

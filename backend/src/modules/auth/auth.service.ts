@@ -35,6 +35,7 @@ export class AuthService {
 
     const tokens = await this.generateTokens({
       id: user.id,
+      institutionId: user.institutionId,
       name: user.firstName,
       role: user.role,
     });
@@ -70,6 +71,7 @@ export class AuthService {
     const tokens = await this.generateTokens({
       id: user.id,
       name: user.firstName,
+      institutionId: user.institutionId,
       role: user.role,
     });
 
@@ -115,6 +117,7 @@ export class AuthService {
       const tokens = await this.generateTokens({
         id: user.id,
         name: user.firstName,
+        institutionId: user.institutionId,
         role: user.role,
       });
 
@@ -141,10 +144,11 @@ export class AuthService {
     if (!isMatchesToken)
       throw new UnauthorizedException('Invalid token. Please log in.');
 
-    const { firstName, role } = userAuth.user;
+    const { firstName, role, institutionId } = userAuth.user;
     const tokens = await this.generateTokens({
       id: userId,
       name: firstName,
+      institutionId,
       role,
     });
     this.authRepository.update(userAuth.id, {

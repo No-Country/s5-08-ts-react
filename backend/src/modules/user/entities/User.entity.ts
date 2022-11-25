@@ -18,6 +18,9 @@ export class User extends BaseProperties {
   @Column({ length: 250 })
   phone: string;
 
+  @Column({ type: 'uuid' })
+  institutionId: string;
+
   @Column({ length: 50 })
   role: string;
 }

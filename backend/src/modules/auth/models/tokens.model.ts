@@ -6,5 +6,6 @@ export interface Tokens {
 export interface PayloadToken {
   id: string;
   name: string;
+  institutionId: string;
   role: string;
 }

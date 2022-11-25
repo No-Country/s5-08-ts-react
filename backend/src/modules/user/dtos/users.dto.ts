@@ -39,3 +39,7 @@ export class CreateUserDTO {
 }
 
 export class UpdateDTO extends PartialType(CreateUserDTO) {}
+
+export type CreateUserParams = CreateUserDTO & {
+  institutionId: string;
+};
