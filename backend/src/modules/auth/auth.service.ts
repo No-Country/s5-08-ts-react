@@ -22,31 +22,13 @@ export class AuthService {
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
-  async registerAdmin(newUser: RegisterDTO): Promise<{
-    tokens: Tokens;
-    user: User;
-  }> {
-    const { password, ...userData } = newUser;
-
+  async registerAdmin(newUser: RegisterDTO): Promise<User> {
     const user = await this.userService.create({
-      ...userData,
+      ...newUser,
       role: Role.ADMIN,
     });
 
-    const tokens = await this.generateTokens({
-      id: user.id,
-      institutionId: user.institutionId,
-      name: user.firstName,
-      role: user.role,
-    });
-
-    await this.createUserAuth({
-      password,
-      user,
-      refreshToken: tokens.refreshToken,
-    });
-
-    return { tokens, user };
+    return user;
   }
 
   private async createUserAuth(newUserAuth: {
