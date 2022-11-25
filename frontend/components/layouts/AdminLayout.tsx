@@ -19,6 +19,9 @@ import { useRouter } from 'next/router';
 import LogoLight from '../../public/logoLight.png';
 import LogoColegio from '../../public/logoColegio.png';
 import Image from 'next/image';
+import { Avatar, Badge } from '@mui/material';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 
 const drawerWidth = 350;
 
@@ -116,9 +119,10 @@ export function AdminLayout(props: Props) {
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
 					ml: { sm: `${drawerWidth}px` },
 					backgroundColor: '#fcfcfc',
-					elevation: 0,
 					color: '#1e1e1e',
+					height: '100px',
 				}}
+				elevation={0}
 			>
 				<Toolbar>
 					<IconButton
@@ -130,9 +134,34 @@ export function AdminLayout(props: Props) {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant='h6' noWrap component='div'>
+					<Typography
+						variant='h6'
+						noWrap
+						component='div'
+						className='mt-6 ml-10 text-4xl'
+					>
 						¡Bienvenid@ {props.User.FirstName}!
 					</Typography>
+					<div className='absolute right-10 top-2 flex items-center gap-4'>
+						<Badge badgeContent={4} color='secondary'>
+							<NotificationsNoneOutlinedIcon
+								fontSize='large'
+								color='success'
+							/>
+						</Badge>
+						<Badge badgeContent={4} color='secondary'>
+							<EmailOutlinedIcon
+								fontSize='large'
+								color='success'
+							/>
+						</Badge>
+						<Avatar
+							alt='John Doe'
+							src='../../public/favicon.ico'
+							sx={{ width: 80, height: 80, bgcolor: '#465EF4' }}
+							className='border-[5px] border-[#8CFBFC]'
+						/>
+					</div>
 				</Toolbar>
 			</AppBar>
 			<Box
@@ -179,6 +208,7 @@ export function AdminLayout(props: Props) {
 					flexGrow: 1,
 					p: 3,
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
+					mt: { sm: '20px' },
 				}}
 			>
 				<Toolbar />
