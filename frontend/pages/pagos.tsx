@@ -1,10 +1,11 @@
 import { ReactElement } from 'react';
-import AdminLayout from '../components/admin/AdminLayout';
+import { AdminLayout } from '../components/layouts';
+import { user1 } from './index';
 
 export default function Pagos() {
-	return <div>Pagos</div>;
+	return (
+		<AdminLayout User={user1}>
+			<h2>Pagos works</h2>
+		</AdminLayout>
+	);
 }
-
-Pagos.getLayout = function getLayout(page: ReactElement) {
-	return <AdminLayout>{page}</AdminLayout>;
-};

@@ -1,8 +1,10 @@
-import { ReactElement } from 'react';
-import AdminLayout from '../components/admin/AdminLayout';
+import { AdminLayout } from '../components/layouts';
+import { user1 } from './index';
 
 export default function Registro() {
-	return <div>Enter your code here</div>;
+	return (
+		<AdminLayout User={user1}>
+			<h2>Registro works</h2>
+		</AdminLayout>
+	);
 }
-
-Registro.getLayout = (page: ReactElement) => <AdminLayout>{page}</AdminLayout>;
