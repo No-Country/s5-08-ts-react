@@ -20,13 +20,4 @@ export class User extends BaseProperties {
 
   @Column({ length: 50 })
   role: string;
-
-  /*@Column({ length: 250 })
-  password: string;
-
-  @Column({ length: 250, nullable: true, name: 'refresh_password_code' })
-  resetPasswordCode: string;
-
-  @Column({ length: 250, nullable: true, name: 'refresh_token_hash' })
-  refreshTokenHash: string;*/
 }
