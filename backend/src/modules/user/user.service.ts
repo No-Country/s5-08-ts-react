@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Repository } from 'typeorm';
-import { CreateUserParams } from './dtos/users.dto';
+import { CreateUserParams, UpdateUserDTO } from './dtos/users.dto';
 import { User } from './entities/User.entity';
 import { UserCreatedEvent } from './events/user.events';
 import { USER_REPOSITORY_KEY } from './repository/UserRepository.providers';
@@ -34,8 +34,13 @@ export class UserService {
     return userSaved;
   }
 
-  async find(): Promise<User[]> {
-    return await this.userRepository.find();
+  async update(id: string, data: UpdateUserDTO) {
+    const user = await this.findOne({ id });
+    await this.userRepository.update(user.id, data);
+  }
+
+  async find(institutionId: string): Promise<User[]> {
+    return await this.userRepository.find({ where: { institutionId } });
   }
 
   async findOne(filters: { id?: string; email?: string }): Promise<User> {
@@ -46,5 +51,10 @@ export class UserService {
     if (!user) throw new NotFoundException(`User not found`);
 
     return user;
+  }
+
+  async delete(id: string) {
+    const user = await this.findOne({ id });
+    await this.userRepository.delete({ id: user.id });
   }
 }

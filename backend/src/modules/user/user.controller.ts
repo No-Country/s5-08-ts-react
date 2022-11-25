@@ -1,17 +1,20 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
+  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Request as ResquestExpress } from 'express';
+import { Request as RequestExpress } from 'express';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAccessGuard } from '../auth/Guards/jwt.guard';
 import { RolesGuard } from '../auth/Guards/roles.guard';
-import { CreateUserDTO } from './dtos/users.dto';
+import { CreateUserDTO, UpdateUserDTO } from './dtos/users.dto';
 import { User } from './entities/User.entity';
 import { Role } from './models/Roles.model';
 import { UserService } from './user.service';
@@ -25,8 +28,15 @@ export class UserController {
 
   @Roles(Role.ADMIN)
   @Get()
-  getUsers() {
-    return this.usersService.find();
+  getUsers(@Request() req: RequestExpress) {
+    const institutionId = req.user.institutionId;
+    return this.usersService.find(institutionId);
+  }
+
+  @Roles(Role.ADMIN)
+  @Get(':id')
+  getUser(@Param('id') id: string) {
+    return this.usersService.findOne({ id });
   }
 
   @Roles(Role.ADMIN)
@@ -35,11 +45,22 @@ export class UserController {
     type: User,
   })*/
   createUser(
-    @Request() req: ResquestExpress,
+    @Request() req: RequestExpress,
     @Body() newUser: CreateUserDTO,
   ): Promise<User> {
     const institutionId = req.user.institutionId;
-    console.log(req.user, 'uiseeeeeeeeeee');
     return this.usersService.create({ ...newUser, institutionId });
+  }
+
+  @Roles(Role.ADMIN)
+  @Put(':id')
+  updateUser(@Param('id') id: string, @Body() data: UpdateUserDTO) {
+    return this.usersService.update(id, data);
+  }
+
+  @Roles(Role.ADMIN)
+  @Delete(':id')
+  deleteUser(@Param('id') id: string) {
+    return this.usersService.delete(id);
   }
 }

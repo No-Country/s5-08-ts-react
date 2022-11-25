@@ -1,3 +1,4 @@
+import { PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateInstitutionDto {
@@ -16,3 +17,5 @@ export class CreateInstitutionDto {
   @MinLength(1)
   logoUrl: string;
 }
+
+export class UpdateInstitutionDto extends PartialType(CreateInstitutionDto) {}

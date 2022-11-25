@@ -46,26 +46,3 @@ export class ActivateUserDTO {
   @IsNotEmpty()
   password: string;
 }
-
-export class UpdateDTO {
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  name?: string;
-
-  @IsEmail()
-  @IsNotEmpty()
-  @IsOptional()
-  email?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  password?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  resetPasswordCode?: string;
-
-  refreshTokenHash?: string;
-}
