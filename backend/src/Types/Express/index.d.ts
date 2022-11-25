@@ -7,6 +7,7 @@ declare global {
         id: string;
         name: string;
         role: string;
+        institutionId: string;
       };
       token: string;
     }

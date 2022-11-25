@@ -28,8 +28,7 @@ export class RegisterDTO {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(6)
-  password: string;
+  institutionId: string;
 }
 
 export class LoginDTO {
@@ -46,27 +45,4 @@ export class ActivateUserDTO {
   @IsString()
   @IsNotEmpty()
   password: string;
-}
-
-export class UpdateDTO {
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  name?: string;
-
-  @IsEmail()
-  @IsNotEmpty()
-  @IsOptional()
-  email?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  password?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  resetPasswordCode?: string;
-
-  refreshTokenHash?: string;
 }

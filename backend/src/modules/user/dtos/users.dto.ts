@@ -38,4 +38,8 @@ export class CreateUserDTO {
   role: string;
 }
 
-export class UpdateDTO extends PartialType(CreateUserDTO) {}
+export class UpdateUserDTO extends PartialType(CreateUserDTO) {}
+
+export type CreateUserParams = CreateUserDTO & {
+  institutionId: string;
+};

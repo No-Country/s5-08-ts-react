@@ -22,15 +22,6 @@ export class SendGridEmailSender implements EmailSender {
         subject: email.subject,
         text: email.body,
       });
-      console.log(response, '1');
-      console.log(response[0], '2');
-      console.log(response[1], '3');
-
-      console.log(response[0].body, '4');
-    } catch (err) {
-      console.log(err, 'err');
-      console.log('eeee');
-      console.log(err.response.body, 'err');
-    }
+    } catch (err) {}
   }
 }
