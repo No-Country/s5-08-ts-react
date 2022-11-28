@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
@@ -39,7 +40,8 @@ export class JwtAccessGuard implements CanActivate {
       request.user = user;
       return true;
     } catch (error) {
-      return false;
+      //return false;
+      throw new UnauthorizedException();
     }
   }
 
