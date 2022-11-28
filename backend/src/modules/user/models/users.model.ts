@@ -1,3 +1,5 @@
+import { CreateUserDTO } from '../dtos/users.dto';
+
 export interface UserProperties {
   id: string;
   firstName: string;
@@ -5,6 +7,7 @@ export interface UserProperties {
   email: string;
   phone: string;
   role: string;
+  institutionId: string;
   createAt: Date;
   updateAt: Date;
 }

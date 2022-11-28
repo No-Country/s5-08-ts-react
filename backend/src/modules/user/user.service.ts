@@ -4,12 +4,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { USER_REPOSITORY_KEY } from './repository/UserRepository.providers';
-import { User } from './entities/User.entity';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { CreateUserDTO } from './dtos/users.dto';
+import { Repository } from 'typeorm';
+import { CreateUserParams, UpdateUserDTO } from './dtos/users.dto';
+import { User } from './entities/User.entity';
 import { UserCreatedEvent } from './events/user.events';
+import { USER_REPOSITORY_KEY } from './repository/UserRepository.providers';
 
 @Injectable()
 export class UserService {
@@ -19,7 +19,7 @@ export class UserService {
     private eventEmitter: EventEmitter2,
   ) {}
 
-  async create(data: CreateUserDTO): Promise<User> {
+  async create(data: CreateUserParams): Promise<User> {
     const findUser = await this.userRepository.findOneBy({ email: data.email });
     if (findUser) throw new ConflictException('Email already exist.');
 
@@ -34,8 +34,13 @@ export class UserService {
     return userSaved;
   }
 
-  async find(): Promise<User[]> {
-    return await this.userRepository.find();
+  async update(id: string, data: UpdateUserDTO) {
+    const user = await this.findOne({ id });
+    await this.userRepository.update(user.id, data);
+  }
+
+  async find(institutionId: string): Promise<User[]> {
+    return await this.userRepository.find({ where: { institutionId } });
   }
 
   async findOne(filters: { id?: string; email?: string }): Promise<User> {
@@ -46,5 +51,10 @@ export class UserService {
     if (!user) throw new NotFoundException(`User not found`);
 
     return user;
+  }
+
+  async delete(id: string) {
+    const user = await this.findOne({ id });
+    await this.userRepository.delete({ id: user.id });
   }
 }

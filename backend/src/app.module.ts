@@ -9,6 +9,7 @@ import { DatabaseModule } from './modules/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { InstitutionManagementModule } from './modules/institution-management/institution-management.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     UserModule,
     AuthModule,
     NotificationsModule,
+    InstitutionManagementModule,
   ],
 })
 export class AppModule {}
