@@ -12,11 +12,13 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request as RequestExpress } from 'express';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { Public } from '../auth/decorators/routePublic.decorator';
 import { JwtAccessGuard } from '../auth/Guards/jwt.guard';
 import { RolesGuard } from '../auth/Guards/roles.guard';
-import { CreateUserDTO, UpdateUserDTO } from './dtos/users.dto';
+import { CreateAdminDto, CreateUserDTO, UpdateUserDTO } from './dtos/users.dto';
 import { User } from './entities/User.entity';
 import { Role } from './models/Roles.model';
+import { AdminService } from './services/admin.services';
 import { UserService } from './user.service';
 
 @ApiBearerAuth()
@@ -24,7 +26,10 @@ import { UserService } from './user.service';
 @ApiTags('Users')
 @Controller('users')
 export class UserController {
-  constructor(private usersService: UserService) {}
+  constructor(
+    private usersService: UserService,
+    private adminService: AdminService,
+  ) {}
 
   @Roles(Role.ADMIN)
   @Get()
@@ -39,17 +44,18 @@ export class UserController {
     return this.usersService.findOne({ id });
   }
 
-  @Roles(Role.ADMIN)
-  @Post()
+  //@Roles(Role.ADMIN)
+  @Public()
+  @Post('admin')
   /*@ApiCreatedResponse({
     type: User,
   })*/
-  createUser(
+  createUserAdmin(
     @Request() req: RequestExpress,
-    @Body() newUser: CreateUserDTO,
-  ): Promise<User> {
+    @Body() newUser: CreateAdminDto,
+  ) {
     const institutionId = req.user.institutionId;
-    return this.usersService.create({ ...newUser, institutionId });
+    return this.adminService.createAdmin(institutionId, { ...newUser });
   }
 
   @Roles(Role.ADMIN)

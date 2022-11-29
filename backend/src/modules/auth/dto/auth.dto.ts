@@ -21,6 +21,10 @@ export class RegisterDTO {
   @IsNotEmpty()
   email: string;
 
+  @IsString()
+  @IsNotEmpty()
+  dni: string;
+
   @IsNotEmpty()
   location: LocationDto;
 

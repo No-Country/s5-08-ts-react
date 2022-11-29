@@ -46,17 +46,33 @@ export class CreateUserDTO {
   email: string;
 
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  dni: string;
+
+  @ApiProperty()
   @IsNotEmpty()
   location: LocationDto;
+}
 
-  @ApiProperty({ enum: Role })
-  @IsEnum(Role)
+export class CreateAdminDto extends CreateUserDTO {
+  @IsString()
   @IsNotEmpty()
-  role: string;
+  chargeOnInstitution: string;
+
+  @IsString()
+  @IsNotEmpty()
+  schedule: string;
+}
+
+export class CreateAdminResponseDto extends CreateAdminDto {
+  id: string;
+  userId: string;
 }
 
 export class UpdateUserDTO extends PartialType(CreateUserDTO) {}
 
 export type CreateUserParams = CreateUserDTO & {
   institutionId: string;
+  role: Role;
 };
