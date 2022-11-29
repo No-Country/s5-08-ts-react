@@ -1,4 +1,4 @@
-import { BaseProperties } from 'src/modules/database/Base.entity';
+import { BaseProperties } from '../../../database/Base.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { EducationLevel } from './EducationLevel.model';
 

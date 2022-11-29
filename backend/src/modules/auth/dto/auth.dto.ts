@@ -1,10 +1,5 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { LocationDto } from 'src/modules/user/dtos/users.dto';
 
 export class RegisterDTO {
   @IsString()
@@ -25,6 +20,9 @@ export class RegisterDTO {
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
+  @IsNotEmpty()
+  location: LocationDto;
 
   @IsString()
   @IsNotEmpty()

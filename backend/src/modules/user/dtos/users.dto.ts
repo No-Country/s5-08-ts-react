@@ -8,6 +8,19 @@ import {
 import { Role } from '../models/Roles.model';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 
+export class LocationDto {
+  @IsString()
+  cyty: string;
+  @IsString()
+  locality: string;
+  @IsString()
+  street: string;
+  @IsString()
+  houseNumber: string;
+  @IsString()
+  department: string;
+}
+
 export class CreateUserDTO {
   @ApiProperty()
   @IsString()
@@ -31,6 +44,10 @@ export class CreateUserDTO {
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  location: LocationDto;
 
   @ApiProperty({ enum: Role })
   @IsEnum(Role)
