@@ -1,12 +1,3 @@
-//admin
-// cargo en el plantel
-// horario
-
-//teacher
-// cargo en el plantel
-// horario laboral
-// asignaturas y secciones
-
 // parents/ Representante
 // contacto de emergencia {name, parentezco, phone}
 // alumnos al que representa : { alumno, parentezco }
