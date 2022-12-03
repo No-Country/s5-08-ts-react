@@ -8,16 +8,26 @@ import { sectionRepositorysProviders } from './sections/SectionRepository.provid
 import { SectionService } from './sections/services/sections.service';
 import { StudentsController } from './students/controllers/students.controller';
 import { StudentService } from './students/services/services.service';
+import { SubjectsController } from './subjects/controllers/subject.controller';
+import { SubjectService } from './subjects/services/subject.service';
+import { subjectRepositorysProviders } from './subjects/SubjectsRepository.provider';
 
 @Module({
   imports: [JwtModule],
-  controllers: [InstitutionsController, StudentsController, SectionsController],
+  controllers: [
+    InstitutionsController,
+    StudentsController,
+    SectionsController,
+    SubjectsController,
+  ],
   providers: [
     InstitutionsService,
     ...InstitutionRepositorysProviders,
     StudentService,
     SectionService,
+    SubjectService,
     ...sectionRepositorysProviders,
+    ...subjectRepositorysProviders,
   ],
 })
 export class InstitutionManagementModule {}

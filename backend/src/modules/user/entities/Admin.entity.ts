@@ -1,7 +1,3 @@
-// alumnos
-// contactos de emerencia { name, parentezco, phone}
-// grado , seccion
-
 import {
   Column,
   Entity,

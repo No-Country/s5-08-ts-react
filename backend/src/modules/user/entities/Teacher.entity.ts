@@ -1,6 +1,14 @@
 import { TeacherSection } from '../../institution-management/sections/entities/TeacherSections.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BaseProperties } from '../../database/Base.entity';
+import { User } from './User.entity';
 
 @Entity({ name: 'teachers' })
 export class Teacher extends BaseProperties {
@@ -13,9 +21,12 @@ export class Teacher extends BaseProperties {
   @Column({ length: 50 })
   schedule: string;
 
-  @Column({ name: 'user_id', type: 'uuid' })
-  userId: string;
+  @OneToOne(() => User, { eager: true, cascade: true })
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
-  @OneToMany(() => TeacherSection, (sectionTeacher) => sectionTeacher.teacher)
+  @OneToMany(() => TeacherSection, (sectionTeacher) => sectionTeacher.teacher, {
+    cascade: true,
+  })
   sectionsOnCharge: TeacherSection[];
 }
