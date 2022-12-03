@@ -1,14 +1,16 @@
-// parents/ Representante
-// contacto de emergencia {name, parentezco, phone}
-// alumnos al que representa : { alumno, parentezco }
-// grados y secciones
-
 // alumnos
 // contactos de emerencia { name, parentezco, phone}
 // grado , seccion
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BaseProperties } from '../../database/Base.entity';
+import { User } from './User.entity';
 
 @Entity({ name: 'admins' })
 export class Admin extends BaseProperties {
@@ -21,6 +23,7 @@ export class Admin extends BaseProperties {
   @Column({ length: 50 })
   schedule: string;
 
-  @Column({ name: 'user_id', type: 'uuid' })
-  userId: string;
+  @OneToOne(() => User, { eager: true, cascade: true })
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

@@ -1,6 +1,11 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { CreateAdminDto, CreateAdminResponseDto } from '../dtos/users.dto';
+import { CreateAdminDto, UpdateAdminDTO } from '../dtos/users.dto';
 import { Admin } from '../entities/Admin.entity';
 import { Role } from '../models/Roles.model';
 import { ADMIN_REPOSITORY_KEY } from '../repository/UserRepository.providers';
@@ -17,7 +22,7 @@ export class AdminService {
   async createAdmin(
     institutionId: string,
     data: CreateAdminDto,
-  ): Promise<CreateAdminResponseDto> {
+  ): Promise<Admin> {
     const { chargeOnInstitution, schedule, ...userData } = data;
     const user = await this.userServices.create({
       ...userData,
@@ -28,19 +33,58 @@ export class AdminService {
     const adminProfile = this.adminRepository.create({
       chargeOnInstitution,
       schedule,
-      userId: user.id,
+      user: { id: user.id },
     });
     await this.adminRepository.save(adminProfile);
 
-    return { ...user, userId: user.id, ...adminProfile };
+    return { ...adminProfile, user };
   }
 
-  async findOne(userId: string) {
+  async updateAdmin(
+    institutionId: string,
+    id: string,
+    data: UpdateAdminDTO,
+  ): Promise<Admin> {
+    const { chargeOnInstitution, schedule, ...userData } = data;
+    const admin = await this.findOne({ id });
+    if (admin.user.institutionId !== institutionId) {
+      throw new ForbiddenException();
+    }
+
+    this.adminRepository.merge(admin, {
+      user: userData,
+      chargeOnInstitution,
+      schedule,
+    });
+
+    await this.adminRepository.save(admin);
+
+    return admin;
+  }
+
+  async findOne(filter: { id?: string; userId?: string }) {
     const admin = await this.adminRepository.findOneBy({
-      userId,
+      id: filter.id,
+      user: { id: filter.userId },
     });
     if (!admin) throw new NotFoundException(`UserAdmin not found`);
 
     return admin;
+  }
+
+  async findAll(institutionId: string): Promise<Admin[]> {
+    const teacher = await this.adminRepository.findBy({
+      user: { institutionId },
+    });
+
+    return teacher;
+  }
+
+  async delete(id: string, institutionId: string): Promise<void> {
+    const admin = await this.findOne({ id });
+    if (admin.user.institutionId !== institutionId) {
+      throw new ForbiddenException();
+    }
+    await this.adminRepository.delete({ id: admin.id });
   }
 }

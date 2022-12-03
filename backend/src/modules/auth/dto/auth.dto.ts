@@ -1,33 +1,7 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
-import { LocationDto } from 'src/modules/user/dtos/users.dto';
+import { IsNotEmpty, IsString } from 'class-validator';
+import { CreateAdminDto } from 'src/modules/user/dtos/users.dto';
 
-export class RegisterDTO {
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(1)
-  firstName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(1)
-  lastName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(1)
-  phone: string;
-
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
-  @IsString()
-  @IsNotEmpty()
-  dni: string;
-
-  @IsNotEmpty()
-  location: LocationDto;
-
+export class RegisterDTO extends CreateAdminDto {
   @IsString()
   @IsNotEmpty()
   institutionId: string;

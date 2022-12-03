@@ -65,6 +65,8 @@ export class CreateAdminDto extends CreateUserDTO {
   schedule: string;
 }
 
+export class UpdateAdminDTO extends PartialType(CreateAdminDto) {}
+
 export class CreateAdminResponseDto extends CreateAdminDto {
   id: string;
   userId: string;

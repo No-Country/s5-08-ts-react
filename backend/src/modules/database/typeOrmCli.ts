@@ -8,12 +8,12 @@ config();
 const configService = new ConfigService();
 
 export default new DataSource({
-  type: 'mysql',
-  host: configService.get('MSQL_HOST'),
-  port: configService.get('MSQL_PORT'),
-  username: configService.get('MSQL_USER'),
-  password: configService.get('MSQL_PASSWORD'),
-  database: configService.get('MSQL_DB'),
+  type: 'postgres',
+  host: configService.get('POSTGRES_HOST'),
+  port: configService.get('POSTGRES_PORT'),
+  username: configService.get('POSTGRES_USER'),
+  password: configService.get('POSTGRES_PASSWORD'),
+  database: configService.get('POSTGRES_DB'),
   entities: ['src/**/*.entity.ts'],
   logging: true,
   synchronize: false,
