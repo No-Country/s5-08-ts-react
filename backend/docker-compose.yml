@@ -1,14 +1,25 @@
 version: '2.4'
 services:
- mysql:
-  container_name: mysqlDB
-  image: mysql:latest
-  volumes:
-   - ./db-data/db:/var/lib/mysql
-  ports:
-   - '3001:3306'
-  environment:
-    MYSQL_DATABASE: '${MSQL_DB}'
-    MYSQL_USER: '${MSQL_USER}'
-    MYSQL_PASSWORD: '${MSQL_PASSWORD}'
-    MYSQL_ROOT_PASSWORD: '${MSQL_PASSWORD}'
+  mysql:
+    container_name: mysqlDB
+    image: mysql:latest
+    volumes:
+      - ./db-data/db:/var/lib/mysql
+    ports:
+      - '3001:3306'
+    environment:
+      MYSQL_DATABASE: '${MSQL_DB}'
+      MYSQL_USER: '${MSQL_USER}'
+      MYSQL_PASSWORD: '${MSQL_PASSWORD}'
+      MYSQL_ROOT_PASSWORD: '${MSQL_PASSWORD}'
+
+  postgres1:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=my_pos2
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - '8080:5432'
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data-s5
