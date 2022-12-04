@@ -6,8 +6,9 @@ import { InstitutionsService } from './institutions/services/institutions.servic
 import { SectionsController } from './sections/controllers/sections.controller';
 import { sectionRepositorysProviders } from './sections/SectionRepository.provider';
 import { SectionService } from './sections/services/sections.service';
-import { StudentsController } from './students/controllers/students.controller';
-import { StudentService } from './students/services/services.service';
+import { StudentController } from './students/controllers/students.controller';
+import { StudentService } from './students/services/student.service';
+import { studentRepositorysProviders } from './students/StudentRepository.provider';
 import { SubjectsController } from './subjects/controllers/subject.controller';
 import { SubjectService } from './subjects/services/subject.service';
 import { subjectRepositorysProviders } from './subjects/SubjectsRepository.provider';
@@ -16,7 +17,7 @@ import { subjectRepositorysProviders } from './subjects/SubjectsRepository.provi
   imports: [JwtModule],
   controllers: [
     InstitutionsController,
-    StudentsController,
+    StudentController,
     SectionsController,
     SubjectsController,
   ],
@@ -26,8 +27,10 @@ import { subjectRepositorysProviders } from './subjects/SubjectsRepository.provi
     StudentService,
     SectionService,
     SubjectService,
+    StudentService,
     ...sectionRepositorysProviders,
     ...subjectRepositorysProviders,
+    ...studentRepositorysProviders,
   ],
 })
 export class InstitutionManagementModule {}
