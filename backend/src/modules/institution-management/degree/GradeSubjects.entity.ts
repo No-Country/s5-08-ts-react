@@ -14,8 +14,8 @@ export class GradeSubjects {
   id: string;
 
   @ManyToOne(() => Grade)
-  @JoinColumn({ name: 'subjet_id' })
-  degree: Grade;
+  @JoinColumn({ name: 'grade_id' })
+  grade: Grade;
 
   @ManyToOne(() => Subject, { cascade: ['insert'], eager: true })
   @JoinColumn({ name: 'subject_id' })

@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
 import { AddSubjectDto } from './GreadeSubjects.dto';
 import { GradeSubjects } from './GradeSubjects.entity';
@@ -24,24 +23,24 @@ export class DegreeService {
 
   async addSubjet(
     institutionId: string,
-    degreeId: string,
+    gradeId: string,
     data: AddSubjectDto,
   ): Promise<GradeSubjects> {
     const gradeSubject = this.gradeSubjectRepository.create({
       subject: data,
-      degree: { id: degreeId },
+      grade: { id: gradeId },
       institutionId,
     });
     return await this.gradeSubjectRepository.save(gradeSubject);
   }
 
-  async getSubjectsByDegree(
-    degreeId: string,
+  async getSubjectsByGrade(
+    gradeId: string,
     institutionId: string,
   ): Promise<GradeSubjects[]> {
     return await this.gradeSubjectRepository.findBy({
       institutionId,
-      degree: { id: degreeId },
+      grade: { id: gradeId },
     });
   }
 }

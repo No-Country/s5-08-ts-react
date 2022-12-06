@@ -16,7 +16,7 @@ import { Role } from 'src/modules/user/models/Roles.model';
 import { DegreeService } from './grade.service';
 import { AddSubjectDto } from './GreadeSubjects.dto';
 
-@ApiTags('Greades')
+@ApiTags('Grades')
 @ApiBearerAuth()
 @UseGuards(JwtAccessGuard, RolesGuard)
 @Controller('grades')
@@ -36,21 +36,17 @@ export class DegreeController {
     @Param('degreeId') degreeId: string,
   ) {
     const institutionId = req.user.institutionId;
-    return this.degreeService.getSubjectsByDegree(degreeId, institutionId);
+    return this.degreeService.getSubjectsByGrade(degreeId, institutionId);
   }
 
   @Roles(Role.ADMIN)
   @Post(':degreeId/subjects')
   addSubjet(
     @Request() req: RequestExpres,
-    @Param('degreeId') degreeId: string,
+    @Param('gradeId') gradeId: string,
     @Body() addSubjectData: AddSubjectDto,
   ) {
     const institutionId = req.user.institutionId;
-    return this.degreeService.addSubjet(
-      institutionId,
-      degreeId,
-      addSubjectData,
-    );
+    return this.degreeService.addSubjet(institutionId, gradeId, addSubjectData);
   }
 }
