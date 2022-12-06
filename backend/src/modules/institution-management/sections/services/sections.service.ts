@@ -22,10 +22,8 @@ export class SectionService {
 
   async create(newSection: CreateSectionParams) {
     const sectionExist = await this.sectionRepositoy.findOneBy({
-      institutionId: newSection.institutionId,
-      degree: newSection.degree,
-      educationLevel: newSection.educationLevel,
-      letterIdentifier: newSection.letterIdentifier,
+      ...newSection,
+      grade: { id: newSection.gradeId },
     });
     if (sectionExist) {
       throw new ConflictException('Section already exists');
@@ -39,10 +37,10 @@ export class SectionService {
     const sections = await this.sectionRepositoy.find({
       where: {
         institutionId,
-        degree: filters.degree,
+        grade: { id: filters.gradeId },
         educationLevel: filters.educationLevel,
       },
-      order: { degree: 'ASC', letterIdentifier: 'ASC' },
+      order: { grade: { number: 'ASC' }, letterIdentifier: 'ASC' },
     });
 
     return sections;
@@ -54,7 +52,10 @@ export class SectionService {
       throw new NotFoundException('Section not found');
     }
 
-    await this.sectionRepositoy.update(id, data);
+    await this.sectionRepositoy.update(id, {
+      ...data,
+      grade: { id: data.gradeId },
+    });
   }
 
   async delete(sectionId: string, institutionId: string) {

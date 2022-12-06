@@ -1,5 +1,13 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BaseProperties } from '../../../database/Base.entity';
+import { Grade } from '../../degree/entities/Grade.entity';
 import { EducationLevel } from './EducationLevel.model';
 import { TeacherSection } from './TeacherSections.entity';
 
@@ -8,8 +16,9 @@ export class Section extends BaseProperties {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  degree: number;
+  @ManyToOne(() => Grade)
+  @JoinColumn({ name: 'grade_id' })
+  grade: Grade;
 
   @Column({ name: 'letter_identifier' })
   letterIdentifier: string;

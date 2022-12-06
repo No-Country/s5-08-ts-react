@@ -13,10 +13,9 @@ import { EducationLevel } from '../entities/EducationLevel.model';
 
 export class CreateSectionDTO {
   @ApiProperty()
-  @IsNumber()
-  @Max(12)
+  @IsString()
   @IsNotEmpty()
-  degree: number;
+  gradeId: string;
 
   @ApiProperty()
   @IsString()
@@ -38,11 +37,9 @@ export type CreateSectionParams = CreateSectionDTO & {
 
 export class SectionsFiltersDto {
   @ApiProperty()
-  @IsNumber()
-  @Max(12)
   @IsNotEmpty()
   @IsOptional()
-  degree?: number;
+  gradeId?: string;
 
   @ApiProperty({ enum: EducationLevel })
   @IsEnum(EducationLevel)
