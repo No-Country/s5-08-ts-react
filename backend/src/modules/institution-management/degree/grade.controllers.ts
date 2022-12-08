@@ -14,7 +14,7 @@ import { JwtAccessGuard } from 'src/modules/auth/Guards/jwt.guard';
 import { RolesGuard } from 'src/modules/auth/Guards/roles.guard';
 import { Role } from 'src/modules/user/models/Roles.model';
 import { DegreeService } from './grade.service';
-import { AddSubjectDto } from './GreadeSubjects.dto';
+import { AddSubjectDto, postGradeDto } from './GreadeSubjects.dto';
 
 @ApiTags('Grades')
 @ApiBearerAuth()
@@ -30,17 +30,17 @@ export class DegreeController {
   }
 
   @Roles(Role.ADMIN, Role.TEACHER, Role.TEACHER)
-  @Get(':degreId/subjects')
+  @Get(':gradeId/subjects')
   getSubjectByDegree(
     @Request() req: RequestExpres,
-    @Param('degreeId') degreeId: string,
+    @Param('gradeId') gradeId: string,
   ) {
     const institutionId = req.user.institutionId;
-    return this.degreeService.getSubjectsByGrade(degreeId, institutionId);
+    return this.degreeService.getSubjectsByGrade(gradeId, institutionId);
   }
 
   @Roles(Role.ADMIN)
-  @Post(':degreeId/subjects')
+  @Post(':gradeId/subjects')
   addSubjet(
     @Request() req: RequestExpres,
     @Param('gradeId') gradeId: string,

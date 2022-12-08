@@ -1,5 +1,11 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { LocationDto } from 'src/modules/user/dtos/users.dto';
 import { EmergencyContact } from 'src/modules/user/models/parent.model';
 
@@ -30,6 +36,7 @@ export class PostStudentDTO {
   phone?: string;
 
   @ApiProperty()
+  @IsObject()
   emergencyContact: EmergencyContact;
 
   @ApiProperty()
@@ -46,3 +53,15 @@ export class PostStudentDTO {
 }
 
 export class UpdateStudentDto extends PartialType(PostStudentDTO) {}
+
+export class StudentsFiltersDto {
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  parentId?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  name?: string;
+}

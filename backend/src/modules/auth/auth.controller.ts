@@ -32,6 +32,7 @@ export class AuthController {
     return this.authService.activateUserAuth(userId, password);
   }
 
+  @ApiBearerAuth()
   @Post('refresh')
   @UseGuards(JwtRefreshGuard)
   refresh(@Request() req: RequestExpress) {

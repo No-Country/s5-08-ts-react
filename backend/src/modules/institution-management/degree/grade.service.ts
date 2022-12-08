@@ -31,6 +31,7 @@ export class DegreeService {
       grade: { id: gradeId },
       institutionId,
     });
+
     return await this.gradeSubjectRepository.save(gradeSubject);
   }
 

@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  Req,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -17,7 +17,11 @@ import { Roles, ROLES_KEY } from 'src/modules/auth/decorators/roles.decorator';
 import { JwtAccessGuard } from 'src/modules/auth/Guards/jwt.guard';
 import { RolesGuard } from 'src/modules/auth/Guards/roles.guard';
 import { Role } from 'src/modules/user/models/Roles.model';
-import { PostStudentDTO, UpdateStudentDto } from '../dtos/student.dto';
+import {
+  PostStudentDTO,
+  StudentsFiltersDto,
+  UpdateStudentDto,
+} from '../dtos/student.dto';
 import { StudentService } from '../services/student.service';
 
 @ApiBearerAuth()
@@ -47,29 +51,19 @@ export class StudentController {
 
   @Roles(Role.ADMIN)
   @Get()
-  getAll(@Request() req: RequestExpress) {
+  getAll(@Request() req: RequestExpress, @Query() filters: StudentsFiltersDto) {
+    if (req.user.role === Role.PARENTS && req.user.id !== filters.parentId) {
+      throw new ForbiddenException();
+    }
+
     const institutionId = req.user.institutionId;
-    return this.studentServices.findAll({ institutionId });
+    return this.studentServices.findAll(institutionId, filters);
   }
 
   @Roles(Role.ADMIN, Role.TEACHER)
   @Get(':id')
   getOne(@Param('id') id: string) {
     return this.studentServices.findOne(id);
-  }
-
-  @Roles(Role.PARENTS, Role.ADMIN, Role.TEACHER)
-  @Get(':parentId')
-  getAllByParent(
-    @Request() req: RequestExpress,
-    @Param('parentId') parentId: string,
-  ) {
-    if (req.user.role === Role.PARENTS && req.user.id !== parentId) {
-      throw new ForbiddenException();
-    }
-
-    const institutionId = req.user.institutionId;
-    return this.studentServices.findAll({ institutionId, parentId });
   }
 
   @Roles(Role.ADMIN)

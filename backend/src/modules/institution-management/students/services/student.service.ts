@@ -4,8 +4,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { PostStudentDTO, UpdateStudentDto } from '../dtos/student.dto';
+import { Like, Repository } from 'typeorm';
+import {
+  PostStudentDTO,
+  StudentsFiltersDto,
+  UpdateStudentDto,
+} from '../dtos/student.dto';
 import { Student } from '../Student.entity';
 import { STUDENT_REPOSITORY_KEY } from '../StudentRepository.provider';
 
@@ -46,13 +50,25 @@ export class StudentService {
     return student;
   }
 
-  async findAll(filter: {
-    institutionId: string;
-    parentId?: string;
-  }): Promise<Student[]> {
+  async findAll(
+    institutionId: string,
+    filters: StudentsFiltersDto,
+  ): Promise<Student[]> {
+    let namesWhereOptions = {};
+    if (filters.name) {
+      const [firstName, lastName] = filters.name.trim().split(' ');
+      namesWhereOptions = {
+        names: Like(`%${firstName}%`),
+      };
+      namesWhereOptions = lastName
+        ? { ...namesWhereOptions, surnames: Like(`%${lastName}%`) }
+        : namesWhereOptions;
+    }
+
     const students = await this.studentRepository.findBy({
-      institutionId: filter.institutionId,
-      parentId: filter.parentId,
+      institutionId,
+      parentId: filters.parentId,
+      ...namesWhereOptions,
     });
 
     return students;
