@@ -40,3 +40,4 @@ db-data
 *.env
 pnpm-lock.yaml
 package-lock.json
+postgres_data

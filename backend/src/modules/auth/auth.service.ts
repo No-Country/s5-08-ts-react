@@ -4,8 +4,9 @@ import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import config from '../../config';
 import { compareData, hashData } from '../../utils/bcrypt.util';
+import { Admin } from '../user/entities/Admin.entity';
 import { User } from '../user/entities/User.entity';
-import { Role } from '../user/models/Roles.model';
+import { AdminService } from '../user/services/admin.services';
 import { UserService } from '../user/user.service';
 import { LoginDTO, RegisterDTO } from './dto/auth.dto';
 import { PayloadToken, Tokens } from './models/tokens.model';
@@ -17,18 +18,19 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    private readonly adminService: AdminService,
     @Inject(AUTH_REPOSITORY_KEY)
     private readonly authRepository: Repository<UserAuth>,
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
-  async registerAdmin(newUser: RegisterDTO): Promise<User> {
-    const user = await this.userService.create({
-      ...newUser,
-      role: Role.ADMIN,
-    });
+  async registerAdmin(newUserAdmin: RegisterDTO): Promise<Admin> {
+    const userAdmin = await this.adminService.createAdmin(
+      newUserAdmin.institutionId,
+      { ...newUserAdmin },
+    );
 
-    return user;
+    return userAdmin;
   }
 
   private async createUserAuth(newUserAuth: {
