@@ -4,7 +4,7 @@ import Image from 'next/image'
 import downArrow from '../../public/icons/down-arrow.svg'
 
 import calendarEditIcon from '../../public/icons/calendar-edit.svg'
-import cancelIcon from '../../public/icons/close.svg'
+import cancelIcon from '../../public/icons/Close.svg'
 import calendarPlusIcon from '../../public/icons/calendar-plus.svg'
 
 interface AccordionProps {

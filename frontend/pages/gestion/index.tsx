@@ -5,7 +5,7 @@ import pencilIcon from '../../public/icons/pencil-dark.svg'
 import closeIcon from '../../public/icons/Close.svg'
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid'
 import * as Dialog from '@radix-ui/react-dialog'
-import plusIcon from '../../public/icons/plus.svg'
+import plusIcon from '../../public/icons/Plus.svg'
 import crossIcon from '../../public/icons/cross-icon.svg'
 import CreateUsersModal from '../../components/layouts/CreateUsersModal'
 
@@ -23,55 +23,54 @@ const gestion = () => {
 
 	const TypeOfTables = {
 		0: [
-			{ id: 1, fullname: 'Snow', phone: 123456789, email: 'asd@gmail.com' },
+			{ id: 1, fullname: 'Snow', phone: 123456789, email: 'snow@gmail.com' },
 			{
 				id: 2,
 				fullname: 'Lannister',
 				phone: 123456789,
-				email: 'asd@gmail.com',
+				email: 'lanni@gmail.com',
 			},
 			{
 				id: 3,
-				fullname: 'Lannister',
+				fullname: 'Alfred',
 				phone: 123456789,
-				email: 'asd@gmail.com',
+				email: 'alfred@gmail.com',
 			},
-			{ id: 4, fullname: 'Stark', phone: 123456789, email: 'asd@gmail.com' },
-			{
-				id: 5,
-				fullname: 'Targaryen',
-				phone: 123456789,
-				email: 'asd@gmail.com',
-			},
+			{ id: 4, fullname: 'Stark', phone: 123456789, email: 'tony@gmail.com' },
 		],
 		1: [
-			{ id: 8, fullname: 'Frances', phone: 123456789, email: 'asd@gmail.com' },
-			{ id: 9, fullname: 'Roxie', phone: 123456789, email: 'asd@gmail.com' },
+			{
+				id: 8,
+				fullname: 'Frances',
+				phone: 123456789,
+				email: 'frances@gmail.com',
+			},
+			{ id: 9, fullname: 'Roxie', phone: 123456789, email: 'roxx@gmail.com' },
 		],
 		2: [
-			{ id: 4, fullname: 'Stark', phone: 123456789, email: 'asd@gmail.com' },
+			{ id: 4, fullname: 'Stark', phone: 123456789, email: 'tony@gmail.com' },
 			{
 				id: 5,
 				fullname: 'Targaryen',
 				phone: 123456789,
-				email: 'asd@gmail.com',
+				email: 'targa@gmail.com',
 			},
-			{ id: 6, fullname: 'Melisandre', phone: null, email: 'asd@gmail.com' },
+			{ id: 6, fullname: 'Melisandre', phone: null, email: 'melisa@gmail.com' },
 		],
 		3: [
 			{
-				id: 2,
-				fullname: 'Lannister',
-				phone: 123456789,
-				email: 'asd@gmail.com',
-			},
-			{
 				id: 3,
-				fullname: 'Lannister',
+				fullname: 'Alfred',
 				phone: 123456789,
-				email: 'asd@gmail.com',
+				email: 'alfred@gmail.com',
 			},
-			{ id: 4, fullname: 'Stark', phone: 123456789, email: 'asd@gmail.com' },
+			{ id: 4, fullname: 'Stark', phone: 123456789, email: 'tony@gmail.com' },
+			{
+				id: 5,
+				fullname: 'Targaryen',
+				phone: 123456789,
+				email: 'targa@gmail.com',
+			},
 		],
 	}
 
@@ -80,15 +79,30 @@ const gestion = () => {
 	}
 
 	const rows: GridRowsProp = [
-		{ id: 1, fullname: 'Snow', phone: 123456789, email: 'asd@gmail.com' },
-		{ id: 2, fullname: 'Lannister', phone: 123456789, email: 'asd@gmail.com' },
-		{ id: 3, fullname: 'Lannister', phone: 123456789, email: 'asd@gmail.com' },
-		{ id: 4, fullname: 'Stark', phone: 123456789, email: 'asd@gmail.com' },
-		{ id: 5, fullname: 'Targaryen', phone: 123456789, email: 'asd@gmail.com' },
-		{ id: 6, fullname: 'Melisandre', phone: null, email: 'asd@gmail.com' },
-		{ id: 7, fullname: 'Clifford', phone: 123456789, email: 'asd@gmail.com' },
-		{ id: 8, fullname: 'Frances', phone: 123456789, email: 'asd@gmail.com' },
-		{ id: 9, fullname: 'Roxie', phone: 123456789, email: 'asd@gmail.com' },
+		{ id: 1, fullname: 'Snow', phone: 123456789, email: 'snow@gmail.com' },
+		{
+			id: 2,
+			fullname: 'Lannister',
+			phone: 123456789,
+			email: 'lanni@gmail.com',
+		},
+		{ id: 3, fullname: 'Alfred', phone: 123456789, email: 'alfred@gmail.com' },
+		{ id: 4, fullname: 'Stark', phone: 123456789, email: 'tony@gmail.com' },
+		{
+			id: 5,
+			fullname: 'Targaryen',
+			phone: 123456789,
+			email: 'targa@gmail.com',
+		},
+		{ id: 6, fullname: 'Melisandre', phone: null, email: 'melisa@gmail.com' },
+		{ id: 7, fullname: 'Clifford', phone: 123456789, email: 'cliff@gmail.com' },
+		{
+			id: 8,
+			fullname: 'Frances',
+			phone: 123456789,
+			email: 'frances@gmail.com',
+		},
+		{ id: 9, fullname: 'Roxie', phone: 123456789, email: 'roxx@gmail.com' },
 	]
 
 	const columns: GridColDef[] = [
@@ -210,7 +224,7 @@ const gestion = () => {
 								</button>
 							</Dialog.Trigger>
 							<Dialog.Portal>
-								<Dialog.Overlay className="bg-black/50 fixed top-0 left-0 right-0 bottom-0 grid place-items-center ">
+								<Dialog.Overlay className="bg-black/50 fixed top-0 left-0 right-0 bottom-0 grid place-items-center z-[999]">
 									<Dialog.Content className="w-3/5 bg-white p-8 rounded-xl overflow-y-auto h-[85%]">
 										<Dialog.Trigger asChild className="float-right">
 											<button className="flex items-center gap-8">

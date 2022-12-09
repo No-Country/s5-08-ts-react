@@ -99,13 +99,36 @@ export default function HomePage() {
 					<div className="w-full h-[88%] flex-1 flex flex-col gap-2">
 						<h3 className="text-2xl font-medium">Solicitudes</h3>
 						<div className="w-full h-full border rounded-2xl shadow-sm p-4 flex flex-col gap-4">
-							<div className="w-full h-full bg-slate-300"></div>
+							<div className="w-full h-full bg-slate-100 rounded-xl p-4">
+								<div className="flex pl-10 gap-8">
+									<div className="w-10 h-10 rounded-full bg-white border border-black/50" />
+									<div>
+										<h1 className="text-lg font-bold">Mariela Lopez</h1>
+										<p className="font-medium">Representante de Diego Brito</p>
+									</div>
+								</div>
+								<div className="w-full flex flex-col gap-4 items-center">
+									<p className="text-lg">
+										Ha solicitado una reunión contigo para el día viernes 18 de
+										noviembre.
+									</p>
+									<div className="flex w-full justify-between px-20">
+										<button className="text-xl border-[#402EDB] border bg-white py-1 w-28 rounded-xl">
+											Rechazar
+										</button>
+										<button className="text-xl bg-[#402EDB] border py-1 w-28 text-white rounded-xl">
+											Aceptar
+										</button>
+									</div>
+								</div>
+							</div>
 							<div className="w-full flex items-center gap-4">
-								<div className="w-16 h-16 rounded-full bg-teal-500 border" />
-								<div className="w-16 h-16 rounded-full bg-teal-500 border" />
-								<div className="w-16 h-16 rounded-full bg-teal-500 border" />
-								<div className="w-16 h-16 rounded-full bg-teal-500 border" />
-								<div className="w-16 h-16 rounded-full bg-teal-500 border" />
+								<div className="w-16 h-16 rounded-full border bg-slate-300/40" />
+								<div className="w-16 h-16 rounded-full border bg-slate-300/40" />
+								<div className="w-16 h-16 rounded-full border bg-slate-300/40" />
+								<div className="w-16 h-16 rounded-full border bg-slate-300/40" />
+								<div className="w-16 h-16 rounded-full border bg-slate-300/40" />
+								<div className="pl-10 text-lg font-bold">Ver todas →</div>
 							</div>
 						</div>
 					</div>
