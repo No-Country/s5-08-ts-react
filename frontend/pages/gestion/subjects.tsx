@@ -1,7 +1,6 @@
-import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useState } from 'react'
-import plusIcon from '../../public/icons/plus.svg'
+// import plusIcon from '../../public/icons/plus.svg'
 import Accordion from '../../components/UI/Input/Accordion'
 
 const gradosPrimaria = [
@@ -88,7 +87,7 @@ const Subjects = () => {
 						</button>
 					</div>
 					<button className="flex items-center gap-8">
-						<Image src={plusIcon} alt="plus icon" />
+						{/* <Image src={plusIcon} alt="plus icon" /> */}
 						<span className="text-xl font-semibold text-[#05124787]">
 							Agregar Asignatura
 						</span>

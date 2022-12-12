@@ -5,7 +5,7 @@ import pencilIcon from '../../public/icons/pencil-dark.svg'
 import closeIcon from '../../public/icons/close.svg'
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid'
 import * as Dialog from '@radix-ui/react-dialog'
-import plusIcon from '../../public/icons/plus.svg'
+// import plusIcon from '../../public/icons/plus.svg'
 import crossIcon from '../../public/icons/cross-icon.svg'
 import CreateUsersModal from '../../components/layouts/CreateUsersModal'
 
@@ -217,7 +217,7 @@ const Gestion = () => {
 						<Dialog.Root>
 							<Dialog.Trigger asChild>
 								<button className="flex items-center gap-8">
-									<Image src={plusIcon} alt="plus icon" />
+									{/* <Image src={plusIcon} alt="plus icon" /> */}
 									<span className="text-xl font-semibold text-[#05124787]">
 										Agregar Usuario
 									</span>
