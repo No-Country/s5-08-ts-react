@@ -4,7 +4,7 @@ import Image from 'next/image'
 import downArrow from '../../public/icons/down-arrow.svg'
 
 import calendarEditIcon from '../../public/icons/calendar-edit.svg'
-import cancelIcon from '../../public/icons/close-icon.svg'
+// import cancelIcon from '../../public/icons/close-icon.svg'
 import calendarPlusIcon from '../../public/icons/calendar-plus.svg'
 
 interface AccordionProps {
@@ -61,7 +61,7 @@ const columns: GridColDef[] = [
 		width: 100,
 		renderCell: () => (
 			<button className="w-6 h-6">
-				<Image src={cancelIcon} alt="cancel icon" />
+				{/* <Image src={cancelIcon} alt="cancel icon" /> */}
 			</button>
 		),
 		align: 'center',

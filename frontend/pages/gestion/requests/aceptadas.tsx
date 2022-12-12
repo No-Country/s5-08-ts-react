@@ -3,7 +3,7 @@ import Image from 'next/image'
 import RequestManagementLayout from '../../../components/layouts/RequestManagementLayout'
 import calendarEditIcon from '../../../public/icons/calendar-edit.svg'
 import calendarPlusIcon from '../../../public/icons/calendar-plus.svg'
-import cancelIcon from '../../../public/icons/close-icon.svg'
+// import cancelIcon from '../../../public/icons/close-icon.svg'
 
 const columns: GridColDef[] = [
 	{
@@ -55,7 +55,7 @@ const columns: GridColDef[] = [
 		width: 150,
 		renderCell: () => (
 			<button className="w-6 h-6">
-				<Image src={cancelIcon} alt="cancel icon" />
+				{/* <Image src={cancelIcon} alt="cancel icon" /> */}
 			</button>
 		),
 		align: 'center',

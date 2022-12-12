@@ -4,7 +4,7 @@ import acceptedRequest from '../../public/illustrations/accepted-request.svg'
 import sentRequest from '../../public/illustrations/send-request.svg'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import plusIcon from '../../public/icons/plus-icon.svg'
+// import plusIcon from '../../public/icons/plus-icon.svg'
 import * as Dialog from '@radix-ui/react-dialog'
 import CreateRequestsModal from './CreateRequestsModal'
 import crossIcon from '../../public/icons/cross-icon.svg'
@@ -91,7 +91,7 @@ const RequestManagementLayout = ({ children }: any) => {
 						<Dialog.Root>
 							<Dialog.Trigger asChild>
 								<button className="flex items-center gap-8">
-									<Image src={plusIcon} alt="plus icon" />
+									{/* <Image src={plusIcon} alt="plus icon" /> */}
 									<span className="text-xl font-semibold text-[#05124787]">
 										Crear solicitud
 									</span>
