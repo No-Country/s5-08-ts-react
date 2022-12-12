@@ -6,14 +6,6 @@ import CustomComobox from '../../components/UI/CustomComobox'
 import pencilIcon from '../../public/icons/pencil-dark.svg'
 import eyeIcon from '../../public/icons/eye.svg'
 
-type Component = 1 | 2 | 3
-
-const typeOfTrimestre = {
-	1: 'Primer Trimestre',
-	2: 'Segundo Trimestre',
-	3: 'Tercer Trimestre',
-}
-
 const rows: GridRowsProp = [
 	{
 		id: 1,
@@ -187,7 +179,7 @@ const columns: GridColDef[] = [
 	},
 ]
 
-const calificaciones = () => {
+const Calificaciones = () => {
 	const [selectedStudent, setSelectedStudent] = useState('')
 	const [trimestre, setTrimestre] = useState(1)
 
@@ -257,4 +249,4 @@ const calificaciones = () => {
 	)
 }
 
-export default calificaciones
+export default Calificaciones

@@ -11,7 +11,7 @@ import CreateUsersModal from '../../components/layouts/CreateUsersModal'
 
 type userTypes = 0 | 1 | 2 | 3
 
-const gestion = () => {
+const Gestion = () => {
 	const [activeUserType, setActiveUserType] = useState(0)
 
 	const TypeOfUsers = {
@@ -258,4 +258,4 @@ const gestion = () => {
 	)
 }
 
-export default gestion
+export default Gestion

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-const secundaria = () => {
+const Secundaria = () => {
 	const router = useRouter()
 
 	const sectionName =
@@ -25,4 +25,4 @@ const secundaria = () => {
 	)
 }
 
-export default secundaria
+export default Secundaria

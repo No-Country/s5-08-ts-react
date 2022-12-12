@@ -24,6 +24,7 @@ export default function CustomComobox({ setParentState }: any) {
 
 	useEffect(() => {
 		setParentState(selected.name)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selected])
 
 	const filteredPeople =

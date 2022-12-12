@@ -1,7 +1,7 @@
 import RequestManagementLayout from '../../../components/layouts/RequestManagementLayout'
 import RequestAccordion from '../../../components/UI/RequestAccordion'
 
-const enviadas = () => {
+const Enviadas = () => {
 	return (
 		<div className="w-full h-full flex flex-col gap-10">
 			<RequestManagementLayout>
@@ -14,4 +14,4 @@ const enviadas = () => {
 	)
 }
 
-export default enviadas
+export default Enviadas

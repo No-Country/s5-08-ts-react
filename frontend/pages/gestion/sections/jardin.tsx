@@ -35,7 +35,7 @@ const salas = [
 	},
 ]
 
-const jardin = () => {
+const Jardin = () => {
 	const router = useRouter()
 
 	const sectionName =
@@ -102,4 +102,4 @@ const jardin = () => {
 	)
 }
 
-export default jardin
+export default Jardin

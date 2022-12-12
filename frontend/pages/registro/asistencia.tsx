@@ -3,7 +3,7 @@ import Calendar from '../../components/Calendar/Calendar'
 import RegisterLayout from '../../components/layouts/RegisterLayout'
 import CustomComobox from '../../components/UI/CustomComobox'
 
-const asistencia = () => {
+const Asistencia = () => {
 	const [selectedStudent, setSelectedStudent] = useState('')
 	const [trimestre, setTrimestre] = useState(1)
 
@@ -68,4 +68,4 @@ const asistencia = () => {
 	)
 }
 
-export default asistencia
+export default Asistencia

@@ -92,7 +92,7 @@ const rows: GridRowsProp = [
 	},
 ]
 
-const aceptadas = () => {
+const Aceptadas = () => {
 	return (
 		<div className="w-full h-full flex flex-col gap-10">
 			<RequestManagementLayout>
@@ -109,4 +109,4 @@ const aceptadas = () => {
 	)
 }
 
-export default aceptadas
+export default Aceptadas

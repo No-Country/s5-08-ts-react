@@ -58,9 +58,8 @@ const gradosSecundaria = [
 	},
 ]
 
-const subjects = () => {
+const Subjects = () => {
 	const [selectTypeOfUser, setSelectTypeOfUser] = useState(0)
-	const router = useRouter()
 
 	return (
 		<div className="w-full h-full flex flex-col gap-10 py-10">
@@ -100,13 +99,13 @@ const subjects = () => {
 				{selectTypeOfUser === 0 ? (
 					<>
 						{gradosPrimaria.map((grado) => (
-							<Accordion title={grado.name} />
+							<Accordion key={grado.id} title={grado.name} />
 						))}
 					</>
 				) : (
 					<>
 						{gradosSecundaria.map((grado) => (
-							<Accordion title={grado.name} />
+							<Accordion key={grado.id} title={grado.name} />
 						))}
 					</>
 				)}
@@ -115,4 +114,4 @@ const subjects = () => {
 	)
 }
 
-export default subjects
+export default Subjects

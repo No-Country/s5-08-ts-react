@@ -59,7 +59,10 @@ const Example: React.FC<AccordionProps> = ({ title }) => {
 							</Disclosure.Button>
 
 							{asignaturas.map((asignatura) => (
-								<Disclosure.Panel className="px-10 py-4 text-gray-500 border text-xl flex items-center justify-between">
+								<Disclosure.Panel
+									key={asignatura.id}
+									className="px-10 py-4 text-gray-500 border text-xl flex items-center justify-between"
+								>
 									<span>{asignatura.name}</span>
 									<button>
 										<Image src={pencilIcon} alt="pencil icon" width={24} />
