@@ -4,7 +4,7 @@ import { useState } from 'react'
 import RegisterLayout from '../../components/layouts/RegisterLayout'
 import CustomComobox from '../../components/UI/CustomComobox'
 import pencilIcon from '../../public/icons/pencil-dark.svg'
-import eyeIcon from '../../public/icons/eye.svg'
+// import eyeIcon from '../../public/icons/eye.svg'
 
 const rows: GridRowsProp = [
 	{
@@ -171,7 +171,7 @@ const columns: GridColDef[] = [
 		width: 150,
 		renderCell: () => (
 			<button className="w-6 h-6">
-				<Image src={eyeIcon} alt="Editar" />
+				{/* <Image src={eyeIcon} alt="Editar" /> */}
 			</button>
 		),
 		align: 'center',

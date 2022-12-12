@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import ManagementLayout from '../../components/layouts/ManagementLayout'
 import pencilIcon from '../../public/icons/pencil-dark.svg'
-import closeIcon from '../../public/icons/close.svg'
+// import closeIcon from '../../public/icons/close.svg'
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid'
 import * as Dialog from '@radix-ui/react-dialog'
 // import plusIcon from '../../public/icons/plus-icon.svg'
@@ -159,7 +159,7 @@ const Gestion = () => {
 			width: 150,
 			renderCell: () => (
 				<button className="w-6 h-6">
-					<Image src={closeIcon} alt="close icon" />
+					{/* <Image src={closeIcon} alt="close icon" /> */}
 				</button>
 			),
 			align: 'center',
