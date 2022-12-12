@@ -1,21 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+/*import { Body, Controller, Param, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Request as RequestExpress } from 'express';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAccessGuard } from '../auth/Guards/jwt.guard';
 import { RolesGuard } from '../auth/Guards/roles.guard';
-import { CreateUserDTO, UpdateUserDTO } from './dtos/users.dto';
-import { User } from './entities/User.entity';
+import { UpdateUserDTO } from './dtos/users.dto';
 import { Role } from './models/Roles.model';
 import { UserService } from './user.service';
 
@@ -31,25 +19,12 @@ export class UserController {
   getUsers(@Request() req: RequestExpress) {
     const institutionId = req.user.institutionId;
     return this.usersService.find(institutionId);
-  }
+  }*/
 
-  @Roles(Role.ADMIN)
+/*@Roles(Role.ADMIN)
   @Get(':id')
   getUser(@Param('id') id: string) {
     return this.usersService.findOne({ id });
-  }
-
-  @Roles(Role.ADMIN)
-  @Post()
-  /*@ApiCreatedResponse({
-    type: User,
-  })*/
-  createUser(
-    @Request() req: RequestExpress,
-    @Body() newUser: CreateUserDTO,
-  ): Promise<User> {
-    const institutionId = req.user.institutionId;
-    return this.usersService.create({ ...newUser, institutionId });
   }
 
   @Roles(Role.ADMIN)
@@ -64,3 +39,4 @@ export class UserController {
     return this.usersService.delete(id);
   }
 }
+*/

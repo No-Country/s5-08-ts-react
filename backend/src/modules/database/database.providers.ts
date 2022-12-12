@@ -10,14 +10,14 @@ export const databaseProviders: Provider[] = [
     provide: DATA_SOURCE_KEY,
     inject: [config.KEY],
     useFactory: async (configService: ConfigType<typeof config>) => {
-      const { msql } = configService;
+      const { postgres } = configService;
       const dataSource = new DataSource({
-        type: 'mysql',
-        host: msql.host,
-        port: msql.port,
-        database: msql.db,
-        username: msql.user,
-        password: msql.password,
+        type: 'postgres',
+        host: postgres.host,
+        port: postgres.port,
+        database: postgres.db,
+        username: postgres.user,
+        password: postgres.password,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
       });
