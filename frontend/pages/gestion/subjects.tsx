@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useState } from 'react'
-import plusIcon from '../../public/icons/Plus.svg'
+import plusIcon from '../../public/icons/plus.svg'
 import Accordion from '../../components/UI/Input/Accordion'
 
 const gradosPrimaria = [

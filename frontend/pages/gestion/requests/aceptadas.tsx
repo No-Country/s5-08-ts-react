@@ -3,7 +3,7 @@ import Image from 'next/image'
 import RequestManagementLayout from '../../../components/layouts/RequestManagementLayout'
 import calendarEditIcon from '../../../public/icons/calendar-edit.svg'
 import calendarPlusIcon from '../../../public/icons/calendar-plus.svg'
-import cancelIcon from '../../../public/icons/Close.svg'
+import cancelIcon from '../../../public/icons/close.svg'
 
 const columns: GridColDef[] = [
 	{

@@ -1,17 +1,7 @@
-import { useEffect, useState } from 'react'
-import awaitRequestImage from '../../public/illustrations/await-request.svg'
-import acceptedRequest from '../../public/illustrations/accepted-request.svg'
-import sentRequest from '../../public/illustrations/send-request.svg'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import registerIllustrations from '../../public/illustrations/registerIllustration.svg'
-
-type reqTypes = 0 | 1
-
-const registerTypes = {
-	0: 'Alumnos',
-	1: 'Profesores',
-}
 
 const RegisterLayout = ({ children }: any) => {
 	const [activeRegister, setActiveRegister] = useState(0)
