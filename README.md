@@ -8,7 +8,6 @@ Plataforma de gestion administrativa escolar con proyección a interacción entr
 
 - Gestión de usuarios
 - Asignación de secciones , y materias por grado,
-- Busca mascotas peridas o encontradas aplicando filtros.
 - Registro de calificaciones y asistencia de los alumnos con posibilidad de generar alertas a los representantes
 - Gestión del inventario de la biblioteca física y publicación de artículos para donaciones
 
